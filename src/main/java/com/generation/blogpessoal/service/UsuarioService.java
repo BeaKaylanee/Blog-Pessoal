@@ -16,6 +16,9 @@ import com.generation.blogpessoal.model.UsuarioLogin;
 import com.generation.blogpessoal.repository.UsuarioRepository;
 import com.generation.blogpessoal.security.JwtService;
 
+import jakarta.transaction.Transactional;
+
+@Transactional
 @Service
 public class UsuarioService {
 
