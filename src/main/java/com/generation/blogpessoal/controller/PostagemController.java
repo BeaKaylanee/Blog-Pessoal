@@ -21,7 +21,6 @@ import org.springframework.web.server.ResponseStatusException;
 import com.generation.blogpessoal.model.Postagem;
 import com.generation.blogpessoal.repository.PostagemRepository;
 import com.generation.blogpessoal.repository.TemaRepository;
-import com.generation.blogpessoal.repository.UsuarioRepository;
 
 import jakarta.validation.Valid;
 
@@ -33,9 +32,6 @@ public class PostagemController {
 	@Autowired
 	private PostagemRepository postagemRepository;
 	
-	@Autowired
-	private UsuarioRepository usuarioRepository ;
-
 	@Autowired
 	private TemaRepository temaRepository;
 	
@@ -56,25 +52,13 @@ public class PostagemController {
 		return ResponseEntity.ok(postagemRepository.findAllByTituloContainingIgnoreCase(titulo));
 	}
 	
-	/*@PostMapping 
+	@PostMapping 
 	public ResponseEntity<Postagem> post(@Valid @RequestBody Postagem postagem ){
 		if(temaRepository.existsById(postagem.getTema().getId()))
 		return ResponseEntity.status(HttpStatus.CREATED).body(postagemRepository.save(postagem));
 		
 		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tema não existe!", null);
-	}*/
-	
-	@PostMapping 
-	public ResponseEntity<Postagem> post(@Valid @RequestBody Postagem postagem ){
-	    if (!temaRepository.existsById(postagem.getTema().getId()))
-	        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tema não existe!", null);
-
-	    if (postagem.getUsuario() == null || !usuarioRepository.existsById(postagem.getUsuario().getId()))
-	        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário não existe!", null);
-
-	    return ResponseEntity.status(HttpStatus.CREATED).body(postagemRepository.save(postagem));
 	}
-
 	
 	@PutMapping
 	public ResponseEntity<Postagem> put(@Valid @RequestBody Postagem postagem){
